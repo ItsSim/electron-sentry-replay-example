@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      @font-face {
+        font-family: 'Staatliches';
+        src: url('./staatliches-regular.woff2') format('woff2'),
+            url('./staatliches-regular.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
+      * {
+        font-family: 'Staatliches';
+        text-align: center;
+      }
+      h1 {
+        font-size: 3rem;
+      }
+      p {
+        font-size: 1.5rem;
+      }
+    </style>
+    <script src="https://js.sentry-cdn.com/62e34f9b16b2451f910c472cd6c35a78.min.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <h1>electron-sentry-replay-example</h1>
+    <p>
+      Image and font are embedded in the packaged Electron app. 
+      <br />
+      Sentry Replays do not display them.
+    </p>
+    <button onclick="doSentryReplay()">Trigger replay</button>
+    <br />
+    <br />
+    <img src="./therock.jpg" style="border-radius: 8px;" height="300">
+    <script>
+      let replay;
+      ( () => {
+        Sentry.onLoad( () => {
+          replay = Sentry.replayIntegration({
+            maskAllText: false,
+            blockAllMedia: false,
+            maskAllInputs: false
+          });
+          
+          Sentry.init({ integrations: [replay] });
+        } );
+      } )();
+
+      function doSentryReplay() {
+        replay.start();
+      }
+    </script>
+  </body>
+</html>
